@@ -19,11 +19,11 @@ async function triggerPushNotification () {
     return
   }
 
-  const register = await navigator.serviceWorker.register('https://testnotificationwebapp.azurewebsites.net/service-worker.js', {
+  const register = await navigator.serviceWorker.register('/service-worker.js', {
     scope: '/'
   })
   console.log('waiting for acceptance')
-  const pubKey = await fetch('https://testnotificationwebapp.azurewebsites.net/api/key')
+  const pubKey = await fetch('/api/key')
     .then(response => response.json())
   console.log(pubKey)
   const subscription = await register.pushManager.subscribe({
@@ -32,7 +32,7 @@ async function triggerPushNotification () {
   })
   const pushSub = JSON.stringify(subscription)
   console.log(`acceptance complete, subscription - ${pushSub}`)
-  await fetch('https://testnotificationwebapp.azurewebsites.net/api/subscribe', {
+  await fetch('/api/subscribe', {
     method: 'POST',
     body: pushSub,
     headers: {

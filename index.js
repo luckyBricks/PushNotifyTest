@@ -26,13 +26,13 @@ app.get('/api/key', (req, res) => {
 
 app.post('/api/subscribe', (req, res) => {
   const subscription = req.body
-  console.log(`接收到subscription - ${JSON.stringify(subscription)}`)
   res.status(201).json({})
   const payload = JSON.stringify({
     title: "测试推送消息"
   })
   webpush.sendNotification(subscription, payload)
     .catch((err) => console.error(err))
+  console.log(`推送到subscription - ${JSON.stringify(subscription)}`)
 })
 
 app.post('/api/save-subscription', (req, res) => {
