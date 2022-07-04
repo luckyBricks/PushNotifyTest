@@ -9,14 +9,14 @@ const app = express()
 const port = process.env.PORT || 4000
 
 app.use(express.static('public'))
-
+app.use(express.json())
 
 app.get('/api/key', (req, res) => {
-
   if (configuredWebPush.vapidPublicKey !== '') {
-    res.send({
+    res.json({
       key: configuredWebPush.vapidPublicKey
     })
+    console.log(`获取成功 ${configuredWebPush.vapidPublicKey}`)
   } else {
     res.status(500).send({
       key: '尚未设置VAPID公钥'
@@ -26,6 +26,7 @@ app.get('/api/key', (req, res) => {
 
 app.post('/api/subscribe', (req, res) => {
   const subscription = req.body
+  console.log(`接收到subscription - ${JSON.stringify(subscription)}`)
   res.status(201).json({})
   const payload = JSON.stringify({
     title: "测试推送消息"
